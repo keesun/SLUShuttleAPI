@@ -28,10 +28,16 @@ public class DataInitializer {
     @PostConstruct
     public void initData() {
         Building rufus = Building.builder()
-                .location(Location.builder().longitude(47.6249024f).latitude(47.6249024f).build())
+                .location(Location.builder().longitude(47.6235751f).latitude(-122.3389757f).build())
                 .name("Rufus")
                 .build();
         buildingRepository.save(rufus);
+
+        Building day1North = Building.builder()
+                .location(Location.builder().longitude(47.622839f).latitude(-122.3390443f).build())
+                .name("Day 1 North")
+                .build();
+        buildingRepository.save(day1North);
     }
 
 }
