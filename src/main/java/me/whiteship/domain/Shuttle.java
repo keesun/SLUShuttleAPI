@@ -2,16 +2,18 @@ package me.whiteship.domain;
 
 import lombok.Data;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * @author whiteship
  */
 @Data
+@Entity
 public class Shuttle {
 
+    @Id
+    @GeneratedValue
     private int id;
 
     private int number;

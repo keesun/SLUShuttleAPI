@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * @author whiteship
@@ -20,6 +22,8 @@ public class Building {
      * STACKHOUSE, GALAXY, JOHN_BROAD, LENORA_ST_4TH, STEWART_3RD, DENNY_HWY99;
      */
 
+    @Id
+    @GeneratedValue
     private int id;
 
     private String name;
