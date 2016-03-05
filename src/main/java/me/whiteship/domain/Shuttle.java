@@ -2,7 +2,8 @@ package me.whiteship.domain;
 
 import lombok.Data;
 
-import java.util.LinkedList;
+import javax.persistence.ElementCollection;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
 /**
@@ -11,10 +12,14 @@ import java.util.List;
 @Data
 public class Shuttle {
 
+    private int id;
+
     private int number;
 
+    @ElementCollection
     private List<Schedule> schedules;
 
-    private LinkedList<Station> stations;
+    @ManyToMany
+    private List<Station> stations;
 
 }

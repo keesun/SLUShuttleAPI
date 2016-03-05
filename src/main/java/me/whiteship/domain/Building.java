@@ -2,10 +2,14 @@ package me.whiteship.domain;
 
 import lombok.Data;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
 /**
  * @author whiteship
  */
 @Data
+@Entity
 public class Building {
 
     /**
@@ -16,10 +20,13 @@ public class Building {
      * STACKHOUSE, GALAXY, JOHN_BROAD, LENORA_ST_4TH, STEWART_3RD, DENNY_HWY99;
      */
 
+    private int id;
+
     private String name;
 
     private String sea;
 
+    @Embedded
     private Location location;
 
 }

@@ -2,19 +2,25 @@ package me.whiteship.domain;
 
 import lombok.Data;
 
-import java.time.LocalTime;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 /**
  * @author whiteship
  */
 @Data
+@Embeddable
 public class Schedule {
 
-    private LocalTime departingTime;
+    @Temporal(TemporalType.TIME)
+    private Date departingTime;
 
     private Station departingStation;
 
-    private LocalTime arrivingTime;
+    @Temporal(TemporalType.TIME)
+    private Date arrivingTime;
 
     private Station arrivingStation;
 
