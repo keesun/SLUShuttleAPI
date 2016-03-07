@@ -2,6 +2,7 @@ package me.whiteship.service;
 
 import me.whiteship.domain.Building;
 import me.whiteship.domain.Location;
+import me.whiteship.domain.Station;
 import me.whiteship.repository.BuildingRepository;
 import me.whiteship.repository.ShuttleRepository;
 import me.whiteship.repository.StationRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 
 /**
  * @author Keesun Baik
@@ -38,6 +40,12 @@ public class DataInitializer {
                 .name("Day 1 North")
                 .build();
         buildingRepository.save(day1North);
+
+        Station day1NorthStation = Station.builder()
+                .name("Day 1 North")
+                .connectedBuildings(Arrays.asList(day1North))
+                .build();
+        stationRepository.save(day1NorthStation);
     }
 
 }
