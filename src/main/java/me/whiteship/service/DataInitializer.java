@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Keesun Baik
@@ -60,30 +58,33 @@ public class DataInitializer {
                 .build();
         stationRepository.save(blackfootStation);
 
-        Calendar departingCal = Calendar.getInstance();
-        departingCal.set(Calendar.HOUR_OF_DAY, 10);
-        departingCal.set(Calendar.MINUTE, 0);
-        departingCal.set(Calendar.SECOND, 0);
-        departingCal.set(Calendar.MILLISECOND, 0);
-        Date departingTime = departingCal.getTime();
-
-        Calendar arrivingCal = Calendar.getInstance();
-        arrivingCal.set(Calendar.HOUR_OF_DAY, 10);
-        arrivingCal.set(Calendar.MINUTE, 5);
-        arrivingCal.set(Calendar.SECOND, 0);
-        arrivingCal.set(Calendar.MILLISECOND, 0);
-        Date arrivingTime = arrivingCal.getTime();
-
         Shuttle shuttle12 = Shuttle.builder()
                 .number(12)
                 .stations(Arrays.asList(day1NorthStation, blackfootStation))
-                .schedules(Arrays.asList(Schedule.builder()
-                        .departingStation(day1NorthStation)
-                        .departingTime(departingTime)
-                        .arrivingStation(blackfootStation)
-                        .arrivingTime(arrivingTime).build()))
-                .build();
+                .schedules(Arrays.asList(
+                        schedule(day1NorthStation, time(10, 0), blackfootStation, time(10, 5)),
+                        schedule(blackfootStation, time(10, 5), day1NorthStation, time(10, 10)),
+                        schedule(day1NorthStation, time(10, 10), blackfootStation, time(10, 15)),
+                        schedule(blackfootStation, time(10, 15), day1NorthStation, time(10, 20))
+                )).build();
         shuttleRepository.save(shuttle12);
+    }
+
+    private Date time(int hour, int minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    private Schedule schedule(Station departingStation, Date departingTime, Station arrivingStation, Date arrivingTime) {
+        return Schedule.builder().departingStation(departingStation)
+                .departingTime(departingTime)
+                .arrivingStation(arrivingStation)
+                .arrivingTime(arrivingTime)
+                .build();
     }
 
 }
