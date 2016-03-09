@@ -5,11 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 /**
  * @author whiteship
  */
@@ -17,7 +12,6 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Building {
 
     /**
@@ -28,15 +22,8 @@ public class Building {
      * STACKHOUSE, GALAXY, JOHN_BROAD, LENORA_ST_4TH, STEWART_3RD, DENNY_HWY99;
      */
 
-    @Id
-    @GeneratedValue
-    private int id;
-
     private String name;
-
     private String sea;
-
-    @Embedded
     private Location location;
 
 }

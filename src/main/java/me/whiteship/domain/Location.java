@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
-
 /**
  * @author whiteship
  */
@@ -14,11 +12,9 @@ import javax.persistence.Embeddable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Embeddable
 public class Location {
 
     private float latitude;
-
     private float longitude;
 
 }
