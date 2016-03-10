@@ -33,11 +33,12 @@ public class ShuttleTest {
         Station arizona = Station.builder().name("Arizona").callout(true).build();
         Station day1North = Station.builder().name("Day 1 North").callout(false).build();
 
-        Shuttle shuttle = new Shuttle();
-        shuttle.setNumber(1);
-        shuttle.setDescription("TRB - Blackfoot - Day 1 North \n" +
-                "AM Blackfoot & Arizona call-outs");
-        shuttle.setStations(new Station[]{trb, blackfoot, arizona, day1North});
+        Shuttle shuttle = Shuttle.builder()
+                .number(1)
+                .description("TRB - Blackfoot - Day 1 North \n" +
+                        "AM Blackfoot & Arizona call-outs")
+                .stations(new Station[]{trb, blackfoot, arizona, day1North})
+                .build();
         shuttle.addSchedules(trb, "6:55 AM", "7:35 AM", "8:15 AM", "8:55 AM", "9:35 AM", "10:15 AM", "10:50 AM",
                 "11:25 AM", "12:00 PM", "12:45 PM", "1:20 PM", "1:50 PM");
         shuttle.addSchedules(day1North, "7:15 AM", "8:00 AM", "8:40 AM", "9:20 AM", "9:55 AM", "10:30 AM",
