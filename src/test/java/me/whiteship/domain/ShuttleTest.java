@@ -27,7 +27,7 @@ public class ShuttleTest {
     }
 
     @Test
-    public void testCreateRoute1() {
+    public void testCreateRoute1ForAM() {
         Station trb = Station.builder().name("TRB").callout(false).build();
         Station blackfoot = Station.builder().name("Blackfoot").callout(true).build();
         Station arizona = Station.builder().name("Arizona").callout(true).build();
@@ -64,5 +64,8 @@ public class ShuttleTest {
         // don't support depart from last station to first station + more
         assertFalse(shuttle.available(day1North, blackfoot));
         assertFalse(shuttle.available(day1North, arizona));
+
+        // TODO get schedule
     }
+
 }
