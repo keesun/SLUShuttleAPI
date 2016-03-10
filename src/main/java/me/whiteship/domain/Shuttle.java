@@ -39,14 +39,8 @@ public class Shuttle {
             return false;
         }
 
-        Station firstStation = stations[0];
-        Station lastStation = stations[stations.length - 1];
-        if (isEndToEnd(departingStation, arrivingStation, firstStation, lastStation)) {
-            return true;
-        }
-
         List<Station> stationList = Arrays.asList(this.stations);
-        if (stationList.indexOf(departingStation) < stationList.indexOf(arrivingStation)) {
+        if (stationList.contains(departingStation) && stationList.contains(arrivingStation)) {
             return true;
         }
 

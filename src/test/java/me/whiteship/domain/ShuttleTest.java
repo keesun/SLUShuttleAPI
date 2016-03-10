@@ -60,11 +60,10 @@ public class ShuttleTest {
         assertFalse(shuttle.available(arizona, day1North));
         assertFalse(shuttle.available(arizona, trb));
         assertFalse(shuttle.available(arizona, blackfoot));
-        // support depart from last station to first station.
+        // support circular schedule.
         assertTrue(shuttle.available(day1North, trb));
-        // don't support depart from last station to first station + more
-        assertFalse(shuttle.available(day1North, blackfoot));
-        assertFalse(shuttle.available(day1North, arizona));
+        assertTrue(shuttle.available(day1North, blackfoot));
+        assertTrue(shuttle.available(day1North, arizona));
 
         // TODO get schedule
     }
