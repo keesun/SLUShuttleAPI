@@ -17,6 +17,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class ShuttleTest {
 
+    Station trb = Station.builder().name("TRB").build();
+    Station blackfoot = Station.builder().name("Blackfoot").build();
+    Station arizona = Station.builder().name("Arizona").build();
+    Station day1North = Station.builder().name("Day 1 North").build();
+
     @Test
     public void testParsingTime() {
         String time = "6:55 AM";
@@ -28,11 +33,6 @@ public class ShuttleTest {
 
     @Test
     public void testRoute1AM() {
-        Station trb = Station.builder().name("TRB").build();
-        Station blackfoot = Station.builder().name("Blackfoot").build();
-        Station arizona = Station.builder().name("Arizona").build();
-        Station day1North = Station.builder().name("Day 1 North").build();
-
         Shuttle shuttle = Shuttle.builder()
                 .number(1)
                 .description("TRB - Blackfoot - Day 1 North \n" +
@@ -71,7 +71,28 @@ public class ShuttleTest {
 
     @Test
     public void testRoute1PM() {
+        Shuttle shuttle = Shuttle.builder()
+                .number(1)
+                .description("PM: Day 1 North - TRB - Balckfoot")
+                .stations(new Station[]{day1North, trb, blackfoot})
+                .callouts(new Boolean[]{false, false, false})
+                .build();
+        shuttle.addSchedules(day1North, "2:10 PM", "2:45 PM", "3:25 PM", "4:15 PM", "5:15 PM", "6:05 PM", "6:55 PM");
+        shuttle.addSchedules(trb, "2:25 PM", "3:05 PM", "3:45 PM", "4:35 PM", "5:35 PM", "6:25 PM");
+        shuttle.addSchedules(blackfoot, "2:40 PM", "3:20 PM", "4:05 PM", "5:05 PM", "5:55 PM", "6:45 PM");
 
+        assertThat(shuttle.getSchedules().get(day1North).size(), is(7));
+        assertThat(shuttle.getSchedules().get(trb).size(), is(6));
+        assertThat(shuttle.getSchedules().get(blackfoot).size(), is(6));
+
+        assertTrue(shuttle.available(day1North, trb));
+        assertTrue(shuttle.available(day1North, blackfoot));
+        assertTrue(shuttle.available(trb, blackfoot));
+        assertTrue(shuttle.available(trb, day1North));
+        assertTrue(shuttle.available(blackfoot, day1North));
+        assertTrue(shuttle.available(blackfoot, trb));
+
+        // TODO get schedule
     }
 
 }
