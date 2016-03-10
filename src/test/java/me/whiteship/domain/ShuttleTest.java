@@ -27,17 +27,18 @@ public class ShuttleTest {
     }
 
     @Test
-    public void testCreateRoute1ForAM() {
-        Station trb = Station.builder().name("TRB").callout(false).build();
-        Station blackfoot = Station.builder().name("Blackfoot").callout(true).build();
-        Station arizona = Station.builder().name("Arizona").callout(true).build();
-        Station day1North = Station.builder().name("Day 1 North").callout(false).build();
+    public void testRoute1AM() {
+        Station trb = Station.builder().name("TRB").build();
+        Station blackfoot = Station.builder().name("Blackfoot").build();
+        Station arizona = Station.builder().name("Arizona").build();
+        Station day1North = Station.builder().name("Day 1 North").build();
 
         Shuttle shuttle = Shuttle.builder()
                 .number(1)
                 .description("TRB - Blackfoot - Day 1 North \n" +
                         "AM Blackfoot & Arizona call-outs")
                 .stations(new Station[]{trb, blackfoot, arizona, day1North})
+                .callouts(new Boolean[]{false, true, true, false})
                 .build();
         shuttle.addSchedules(trb, "6:55 AM", "7:35 AM", "8:15 AM", "8:55 AM", "9:35 AM", "10:15 AM", "10:50 AM",
                 "11:25 AM", "12:00 PM", "12:45 PM", "1:20 PM", "1:50 PM");
@@ -66,6 +67,11 @@ public class ShuttleTest {
         assertTrue(shuttle.available(day1North, arizona));
 
         // TODO get schedule
+    }
+
+    @Test
+    public void testRoute1PM() {
+
     }
 
 }

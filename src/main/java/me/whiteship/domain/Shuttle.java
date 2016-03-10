@@ -21,6 +21,7 @@ public class Shuttle {
     private int number;
     private String description;
     private Station[] stations;
+    private Boolean[] callouts;
     private Map<Station, List<LocalTime>> schedules;
 
     public void addSchedules(Station station, String... times) {
@@ -35,7 +36,8 @@ public class Shuttle {
     }
 
     public boolean available(Station departingStation, Station arrivingStation) {
-        if (departingStation.isCallout()) {
+        int stationIndex = Arrays.asList(this.stations).indexOf(departingStation);
+        if (callouts[stationIndex]) {
             return false;
         }
 

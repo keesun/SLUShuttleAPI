@@ -19,6 +19,4 @@ public class Station {
     private String name;
     private List<Building> connectedBuildings;
 
-    private boolean callout;
-
 }
