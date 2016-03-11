@@ -35,18 +35,23 @@ public class Shuttle {
         schedules.put(station, localTimes);
     }
 
-    public boolean available(Station departingStation, Station arrivingStation) {
+    /**
+     * True only if when a user can ride a shuttle on the {@code departingStation} and get to the {@code arrivingStation}
+     * with this shuttle.
+     *
+     * @param departingStation
+     * @param arrivingStation
+     * @return true means a user can use this shuttle otherwise return false.
+     */
+    public boolean isAvailable(Station departingStation, Station arrivingStation) {
         int stationIndex = Arrays.asList(this.stations).indexOf(departingStation);
         if (callouts[stationIndex]) {
             return false;
         }
 
         List<Station> stationList = Arrays.asList(this.stations);
-        if (stationList.contains(departingStation) && stationList.contains(arrivingStation)) {
-            return true;
-        }
+        return stationList.contains(departingStation) && stationList.contains(arrivingStation);
 
-        return false;
     }
 
     private boolean isEndToEnd(Station departingStation, Station arrivingStation, Station firstStation, Station lastStation) {

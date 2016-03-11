@@ -72,20 +72,20 @@ public class ShuttleTest {
         assertScheduleSize(route1AM, blackfoot, 0);
         assertScheduleSize(route1AM, arizona, 0);
 
-        assertTrue(route1AM.available(trb, blackfoot));
-        assertTrue(route1AM.available(trb, arizona));
-        assertTrue(route1AM.available(trb, day1North));
+        assertTrue(route1AM.isAvailable(trb, blackfoot));
+        assertTrue(route1AM.isAvailable(trb, arizona));
+        assertTrue(route1AM.isAvailable(trb, day1North));
         // call-out station means drop only
-        assertFalse(route1AM.available(blackfoot, arizona));
-        assertFalse(route1AM.available(blackfoot, day1North));
-        assertFalse(route1AM.available(blackfoot, trb));
-        assertFalse(route1AM.available(arizona, day1North));
-        assertFalse(route1AM.available(arizona, trb));
-        assertFalse(route1AM.available(arizona, blackfoot));
+        assertFalse(route1AM.isAvailable(blackfoot, arizona));
+        assertFalse(route1AM.isAvailable(blackfoot, day1North));
+        assertFalse(route1AM.isAvailable(blackfoot, trb));
+        assertFalse(route1AM.isAvailable(arizona, day1North));
+        assertFalse(route1AM.isAvailable(arizona, trb));
+        assertFalse(route1AM.isAvailable(arizona, blackfoot));
         // support circular schedule.
-        assertTrue(route1AM.available(day1North, trb));
-        assertTrue(route1AM.available(day1North, blackfoot));
-        assertTrue(route1AM.available(day1North, arizona));
+        assertTrue(route1AM.isAvailable(day1North, trb));
+        assertTrue(route1AM.isAvailable(day1North, blackfoot));
+        assertTrue(route1AM.isAvailable(day1North, arizona));
 
         // TODO get schedule
     }
@@ -96,12 +96,12 @@ public class ShuttleTest {
         assertScheduleSize(route1PM, trb, 6);
         assertScheduleSize(route1PM, blackfoot, 6);
 
-        assertTrue(route1PM.available(day1North, trb));
-        assertTrue(route1PM.available(day1North, blackfoot));
-        assertTrue(route1PM.available(trb, blackfoot));
-        assertTrue(route1PM.available(trb, day1North));
-        assertTrue(route1PM.available(blackfoot, day1North));
-        assertTrue(route1PM.available(blackfoot, trb));
+        assertTrue(route1PM.isAvailable(day1North, trb));
+        assertTrue(route1PM.isAvailable(day1North, blackfoot));
+        assertTrue(route1PM.isAvailable(trb, blackfoot));
+        assertTrue(route1PM.isAvailable(trb, day1North));
+        assertTrue(route1PM.isAvailable(blackfoot, day1North));
+        assertTrue(route1PM.isAvailable(blackfoot, trb));
 
         // TODO get schedule
     }
