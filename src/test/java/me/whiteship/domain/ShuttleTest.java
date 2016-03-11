@@ -9,9 +9,7 @@ import java.util.Locale;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Keesun Baik
@@ -87,7 +85,10 @@ public class ShuttleTest {
         assertTrue(route1AM.isAvailable(day1North, blackfoot));
         assertTrue(route1AM.isAvailable(day1North, arizona));
 
-        // TODO get schedule
+        assertEquals(route1AM.getSchedules(trb, day1North, LocalTime.of(6, 0)).size(), 12);
+        assertEquals(route1AM.getSchedules(trb, blackfoot, LocalTime.of(6, 0)).size(), 12);
+        assertEquals(route1AM.getSchedules(trb, day1North, LocalTime.of(10, 0)).size(), 7);
+        assertEquals(route1AM.getSchedules(day1North, trb, LocalTime.of(10, 0)).size(), 6);
     }
 
     @Test

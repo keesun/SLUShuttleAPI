@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -57,5 +58,25 @@ public class Shuttle {
     private boolean isEndToEnd(Station departingStation, Station arrivingStation, Station firstStation, Station lastStation) {
         return (departingStation.equals(lastStation) && arrivingStation.equals(firstStation)) ||
                 (departingStation.equals(firstStation) && arrivingStation.equals(lastStation));
+    }
+
+    public List<Schedule> getSchedules(Station departingStation, Station arrivingStation, LocalTime localTime) {
+        List<LocalTime> arrivingSchedules = getSchedules().get(arrivingStation);
+        boolean callout = arrivingSchedules == null;
+
+        AtomicInteger index = new AtomicInteger();
+        return getSchedules().get(departingStation).stream()
+                .filter(time -> {
+                    index.incrementAndGet();
+                    return time.isAfter(localTime);
+                })
+                .map(departingTime -> Schedule.builder()
+                        .departingStation(departingStation)
+                        .departingTime(departingTime)
+                        .arrivingStation(arrivingStation)
+                        .callout(callout)
+                        .dropOnly(callout)
+                        .build())
+                .collect(Collectors.toList());
     }
 }

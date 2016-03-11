@@ -3,7 +3,7 @@ package me.whiteship.domain;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalTime;
 
 /**
  * @author whiteship
@@ -12,9 +12,9 @@ import java.util.Date;
 @Builder
 public class Schedule {
 
-    private Date departingTime;
+    private LocalTime departingTime;
     private Station departingStation;
-    private Date arrivingTime;
+    private LocalTime arrivingTime;
     private Station arrivingStation;
 
     /**
