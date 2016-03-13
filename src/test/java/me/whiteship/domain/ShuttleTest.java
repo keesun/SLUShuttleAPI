@@ -161,7 +161,19 @@ public class ShuttleTest {
         assertTrue(route1PM.isAvailable(blackfoot, day1North));
         assertTrue(route1PM.isAvailable(blackfoot, trb));
 
-        // TODO get schedule
+        List<Schedule> fromDay1NorthToTrbAt230 = route1PM.getSchedules(day1North, trb, LocalTime.of(14, 30));
+        assertEquals(fromDay1NorthToTrbAt230.size(), 6);
+        assertSchedule(fromDay1NorthToTrbAt230.get(0), day1North, trb, 14, 45);
+        assertSchedule(fromDay1NorthToTrbAt230.get(1), day1North, trb, 15, 25);
+        assertSchedule(fromDay1NorthToTrbAt230.get(2), day1North, trb, 16, 15);
+        assertSchedule(fromDay1NorthToTrbAt230.get(3), day1North, trb, 17, 15);
+        assertSchedule(fromDay1NorthToTrbAt230.get(4), day1North, trb, 18, 5);
+        assertSchedule(fromDay1NorthToTrbAt230.get(5), day1North, trb, 18, 55);
+
+        List<Schedule> fromTrbToBlackfootAt435 = route1PM.getSchedules(trb, blackfoot, LocalTime.of(16, 35));
+        assertEquals(fromTrbToBlackfootAt435.size(), 2);
+        assertSchedule(fromTrbToBlackfootAt435.get(0), trb, blackfoot, 17, 35);
+        assertSchedule(fromTrbToBlackfootAt435.get(1), trb, blackfoot, 18, 25);
     }
 
     private void assertScheduleSize(Shuttle shuttle, Station station, int count) {
