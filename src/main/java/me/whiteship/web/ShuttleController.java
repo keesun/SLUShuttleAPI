@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author whiteship
  */
 @Controller
-public class FindShuttleController {
+public class ShuttleController {
 
     @Autowired
     ShuttleService shuttleService;
