@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Keesun Baik
@@ -73,7 +70,16 @@ public class ShuttleService {
         }
     }
 
-    public Map<Shuttle, List<Schedule>> findSchedueles(Station fromStation, Station toStation, LocalTime now) {
-        return null;
+    public Map<Shuttle, List<Schedule>> findSchedules(Station fromStation, Station toStation, LocalTime now) {
+        Map<Shuttle, List<Schedule>> result = new HashMap<>();
+        shuttles.stream().forEach(shuttle -> {
+            if (shuttle.isAvailable(fromStation, toStation)) {
+                List<Schedule> schedules = shuttle.getSchedules(fromStation, toStation, now);
+                if (schedules.size() > 0) {
+                    result.put(shuttle, schedules);
+                }
+            }
+        });
+        return result;
     }
 }

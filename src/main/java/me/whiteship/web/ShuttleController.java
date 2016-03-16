@@ -28,7 +28,7 @@ public class ShuttleController {
     public ResponseEntity find(@PathVariable String from, @PathVariable String to) {
         Station fromStation = shuttleService.findStationByName(from);
         Station toStation = shuttleService.findStationByName(to);
-        Map<Shuttle, List<Schedule>> schedules = shuttleService.findSchedueles(fromStation, toStation, LocalTime.now());
+        Map<Shuttle, List<Schedule>> schedules = shuttleService.findSchedules(fromStation, toStation, LocalTime.now());
         return null;
     }
 }
