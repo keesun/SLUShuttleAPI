@@ -5,7 +5,6 @@ import me.whiteship.domain.Shuttle;
 import me.whiteship.domain.Station;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -15,48 +14,57 @@ import java.util.*;
 @Service
 public class ShuttleService {
 
-    private List<Station> stations;
-    private List<Shuttle> shuttles;
+    private static final List<Station> stations;
+    private static final List<Shuttle> shuttles;
 
-    @PostConstruct
-    public void initData() {
-        this.stations = new ArrayList<>();
-        final Station trb = Station.builder().name("TRB").build();
-        stations.add(trb);
+    public static final Station TRB;
+    public static final Station DAY_1_NORTH;
+    public static final Station BLACKFOOT;
+    public static final Station ARIZONA;
 
-        final Station day1North = Station.builder().name("Day1North").build();
-        stations.add(day1North);
+    public static final Shuttle ROUTE_1_AM;
+    public static final Shuttle ROUTE_1_PM;
 
-        final Station blackfoot = Station.builder().name("Blackfoot").build();
-        stations.add(blackfoot);
+    static {
+        stations = new ArrayList<>();
 
-        final Station arizona = Station.builder().name("Arizona").build();
-        stations.add(arizona);
+        TRB = Station.builder().name("TRB").build();
+        stations.add(TRB);
 
-        this.shuttles = new ArrayList<>();
-        final Shuttle route1AM = Shuttle.builder()
+        DAY_1_NORTH = Station.builder().name("Day1North").build();
+        stations.add(DAY_1_NORTH);
+
+        BLACKFOOT = Station.builder().name("Blackfoot").build();
+        stations.add(BLACKFOOT);
+
+        ARIZONA = Station.builder().name("Arizona").build();
+        stations.add(ARIZONA);
+
+
+        shuttles = new ArrayList<>();
+        ROUTE_1_AM = Shuttle.builder()
                 .number(1)
                 .description("TRB - Blackfoot - Day 1 North \n" +
                         "AM Blackfoot & Arizona call-outs")
-                .stations(new Station[]{trb, blackfoot, arizona, day1North})
+                .stations(new Station[]{TRB, BLACKFOOT, ARIZONA, DAY_1_NORTH})
                 .callouts(new Boolean[]{false, true, true, false})
                 .build();
-        route1AM.addSchedules(trb, "6:55 AM", "7:35 AM", "8:15 AM", "8:55 AM", "9:35 AM", "10:15 AM", "10:50 AM",
+        ROUTE_1_AM.addSchedules(TRB, "6:55 AM", "7:35 AM", "8:15 AM", "8:55 AM", "9:35 AM", "10:15 AM", "10:50 AM",
                 "11:25 AM", "12:00 PM", "12:45 PM", "1:20 PM", "1:50 PM");
-        route1AM.addSchedules(day1North, "7:15 AM", "8:00 AM", "8:40 AM", "9:20 AM", "9:55 AM", "10:30 AM",
+        ROUTE_1_AM.addSchedules(DAY_1_NORTH, "7:15 AM", "8:00 AM", "8:40 AM", "9:20 AM", "9:55 AM", "10:30 AM",
                 "11:05 AM", "11:40 AM", "12:15 PM", "1:00 PM", "1:35 PM");
-        shuttles.add(route1AM);
+        shuttles.add(ROUTE_1_AM);
 
-        final Shuttle route1PM = Shuttle.builder()
+        ROUTE_1_PM = Shuttle.builder()
                 .number(1)
                 .description("PM: Day 1 North - TRB - Balckfoot")
-                .stations(new Station[]{day1North, trb, blackfoot})
+                .stations(new Station[]{DAY_1_NORTH, TRB, BLACKFOOT})
                 .callouts(new Boolean[]{false, false, false})
                 .build();
-        route1PM.addSchedules(day1North, "2:10 PM", "2:45 PM", "3:25 PM", "4:15 PM", "5:15 PM", "6:05 PM", "6:55 PM");
-        route1PM.addSchedules(trb, "2:25 PM", "3:05 PM", "3:45 PM", "4:35 PM", "5:35 PM", "6:25 PM");
-        route1PM.addSchedules(blackfoot, "2:40 PM", "3:20 PM", "4:05 PM", "5:05 PM", "5:55 PM", "6:45 PM");
-        shuttles.add(route1PM);
+        ROUTE_1_PM.addSchedules(DAY_1_NORTH, "2:10 PM", "2:45 PM", "3:25 PM", "4:15 PM", "5:15 PM", "6:05 PM", "6:55 PM");
+        ROUTE_1_PM.addSchedules(TRB, "2:25 PM", "3:05 PM", "3:45 PM", "4:35 PM", "5:35 PM", "6:25 PM");
+        ROUTE_1_PM.addSchedules(BLACKFOOT, "2:40 PM", "3:20 PM", "4:05 PM", "5:05 PM", "5:55 PM", "6:45 PM");
+        shuttles.add(ROUTE_1_PM);
     }
 
     public Station findStationByName(String stationName) {
