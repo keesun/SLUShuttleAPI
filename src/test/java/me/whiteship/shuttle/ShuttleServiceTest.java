@@ -51,6 +51,21 @@ public class ShuttleServiceTest {
 
         Map<Shuttle, List<Schedule>> fromTrbToBlackfoot = shuttleService.findSchedules(trb, blackfoot, LocalTime.of(9, 35));
         assertEquals(fromTrbToBlackfoot.size(), 2);
+        List<Schedule> route1AMSchedules = fromTrbToBlackfoot.get(ShuttleService.ROUTE_1_AM);
+        assertEquals(route1AMSchedules.size(), 7);
+        Schedule firstScheduleForRoute1AM = route1AMSchedules.get(0);
+        assertEquals(firstScheduleForRoute1AM.getDepartingStation(), ShuttleService.TRB);
+        assertEquals(firstScheduleForRoute1AM.getArrivingStation(), ShuttleService.BLACKFOOT);
+        assertEquals(firstScheduleForRoute1AM.getDepartingTime().getHour(), 10);
+        assertEquals(firstScheduleForRoute1AM.getDepartingTime().getMinute(), 15);
+
+        List<Schedule> route1PMSchedules = fromTrbToBlackfoot.get(ShuttleService.ROUTE_1_PM);
+        assertEquals(route1PMSchedules.size(), 6);
+        Schedule lastSchedule = route1PMSchedules.get(5);
+        assertEquals(lastSchedule.getDepartingStation(), ShuttleService.TRB);
+        assertEquals(lastSchedule.getArrivingStation(), ShuttleService.BLACKFOOT);
+        assertEquals(lastSchedule.getDepartingTime().getHour(), 18);
+        assertEquals(lastSchedule.getDepartingTime().getMinute(), 25);
 
         Map<Shuttle, List<Schedule>> fromTrbToArizona = shuttleService.findSchedules(trb, arizona, LocalTime.of(9, 35));
         assertEquals(fromTrbToArizona.size(), 1);
