@@ -71,7 +71,6 @@ public class ShuttleServiceTest {
         assertEquals(firstScheduleOfRounte1PM.getArrivingStation(), ShuttleService.BLACKFOOT);
         assertEquals(firstScheduleOfRounte1PM.getDepartingTime().getHour(), 14);
         assertEquals(firstScheduleOfRounte1PM.getDepartingTime().getMinute(), 25);
-
         Schedule lastScheduleOfRoute1PM = route1PMSchedules.get(5);
         assertEquals(lastScheduleOfRoute1PM.getDepartingStation(), ShuttleService.TRB);
         assertEquals(lastScheduleOfRoute1PM.getArrivingStation(), ShuttleService.BLACKFOOT);
@@ -80,6 +79,9 @@ public class ShuttleServiceTest {
 
         Map<Shuttle, List<Schedule>> fromTrbToArizona = shuttleService.findSchedules(trb, arizona, LocalTime.of(9, 35));
         assertEquals(fromTrbToArizona.size(), 1);
+
+        // TODO D1N 에서 BlackFoot으로 가는게 6개만 나와야 하는데 아마 7개가 나올꺼다
+        // TODO 그거 고치려면 call-out이랑 Drop-only 스케줄도 채워야 한다.
     }
 
 }
