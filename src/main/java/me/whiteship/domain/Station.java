@@ -16,6 +16,18 @@ import java.util.List;
 @AllArgsConstructor
 public class Station {
 
+    public static final Station TRB;
+    public static final Station DAY_1_NORTH;
+    public static final Station BLACKFOOT;
+    public static final Station ARIZONA;
+
+    static {
+        TRB = Station.builder().name("TRB").build();
+        DAY_1_NORTH = Station.builder().name("Day1North").build();
+        BLACKFOOT = Station.builder().name("Blackfoot").build();
+        ARIZONA = Station.builder().name("Arizona").build();
+    }
+
     private String name;
     private List<Building> connectedBuildings;
 

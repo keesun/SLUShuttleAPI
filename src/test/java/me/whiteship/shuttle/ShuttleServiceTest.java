@@ -51,29 +51,29 @@ public class ShuttleServiceTest {
 
         Map<Shuttle, List<Schedule>> fromTrbToBlackfoot = shuttleService.findSchedules(trb, blackfoot, LocalTime.of(9, 35));
         assertEquals(fromTrbToBlackfoot.size(), 2);
-        List<Schedule> route1AMSchedules = fromTrbToBlackfoot.get(ShuttleService.ROUTE_1_AM);
+        List<Schedule> route1AMSchedules = fromTrbToBlackfoot.get(Shuttle.ROUTE_1_AM);
         assertEquals(route1AMSchedules.size(), 7);
         Schedule firstScheduleOfRoute1AM = route1AMSchedules.get(0);
-        assertEquals(firstScheduleOfRoute1AM.getDepartingStation(), ShuttleService.TRB);
-        assertEquals(firstScheduleOfRoute1AM.getArrivingStation(), ShuttleService.BLACKFOOT);
+        assertEquals(firstScheduleOfRoute1AM.getDepartingStation(), Station.TRB);
+        assertEquals(firstScheduleOfRoute1AM.getArrivingStation(), Station.BLACKFOOT);
         assertEquals(firstScheduleOfRoute1AM.getDepartingTime().getHour(), 10);
         assertEquals(firstScheduleOfRoute1AM.getDepartingTime().getMinute(), 15);
         Schedule lastScheduleOfRoute1AM = route1AMSchedules.get(6);
-        assertEquals(lastScheduleOfRoute1AM.getDepartingStation(), ShuttleService.TRB);
-        assertEquals(lastScheduleOfRoute1AM.getArrivingStation(), ShuttleService.BLACKFOOT);
+        assertEquals(lastScheduleOfRoute1AM.getDepartingStation(), Station.TRB);
+        assertEquals(lastScheduleOfRoute1AM.getArrivingStation(), Station.BLACKFOOT);
         assertEquals(lastScheduleOfRoute1AM.getDepartingTime().getHour(), 13);
         assertEquals(lastScheduleOfRoute1AM.getDepartingTime().getMinute(), 50);
 
-        List<Schedule> route1PMSchedules = fromTrbToBlackfoot.get(ShuttleService.ROUTE_1_PM);
+        List<Schedule> route1PMSchedules = fromTrbToBlackfoot.get(Shuttle.ROUTE_1_PM);
         assertEquals(route1PMSchedules.size(), 6);
         Schedule firstScheduleOfRounte1PM = route1PMSchedules.get(0);
-        assertEquals(firstScheduleOfRounte1PM.getDepartingStation(), ShuttleService.TRB);
-        assertEquals(firstScheduleOfRounte1PM.getArrivingStation(), ShuttleService.BLACKFOOT);
+        assertEquals(firstScheduleOfRounte1PM.getDepartingStation(), Station.TRB);
+        assertEquals(firstScheduleOfRounte1PM.getArrivingStation(), Station.BLACKFOOT);
         assertEquals(firstScheduleOfRounte1PM.getDepartingTime().getHour(), 14);
         assertEquals(firstScheduleOfRounte1PM.getDepartingTime().getMinute(), 25);
         Schedule lastScheduleOfRoute1PM = route1PMSchedules.get(5);
-        assertEquals(lastScheduleOfRoute1PM.getDepartingStation(), ShuttleService.TRB);
-        assertEquals(lastScheduleOfRoute1PM.getArrivingStation(), ShuttleService.BLACKFOOT);
+        assertEquals(lastScheduleOfRoute1PM.getDepartingStation(), Station.TRB);
+        assertEquals(lastScheduleOfRoute1PM.getArrivingStation(), Station.BLACKFOOT);
         assertEquals(lastScheduleOfRoute1PM.getDepartingTime().getHour(), 18);
         assertEquals(lastScheduleOfRoute1PM.getDepartingTime().getMinute(), 25);
 
