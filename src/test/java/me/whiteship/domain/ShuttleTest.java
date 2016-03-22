@@ -33,8 +33,8 @@ public class ShuttleTest {
     public void testRoute1AM() {
         assertScheduleSize(Shuttle.ROUTE_1_AM, Station.TRB, 12);
         assertScheduleSize(Shuttle.ROUTE_1_AM, Station.DAY_1_NORTH, 11);
-        assertScheduleSize(Shuttle.ROUTE_1_AM, Station.BLACKFOOT, 0);
-        assertScheduleSize(Shuttle.ROUTE_1_AM, Station.ARIZONA, 0);
+        assertScheduleSize(Shuttle.ROUTE_1_AM, Station.BLACKFOOT, 12);
+        assertScheduleSize(Shuttle.ROUTE_1_AM, Station.ARIZONA, 12);
 
         assertTrue(Shuttle.ROUTE_1_AM.isAvailable(Station.TRB, Station.BLACKFOOT));
         assertTrue(Shuttle.ROUTE_1_AM.isAvailable(Station.TRB, Station.ARIZONA));
@@ -112,7 +112,7 @@ public class ShuttleTest {
     @Test
     public void testRoute1PM() {
         assertScheduleSize(Shuttle.ROUTE_1_PM, Station.DAY_1_NORTH, 7);
-        assertScheduleSize(Shuttle.ROUTE_1_PM, Station.TRB, 6);
+        assertScheduleSize(Shuttle.ROUTE_1_PM, Station.TRB, 7);
         assertScheduleSize(Shuttle.ROUTE_1_PM, Station.BLACKFOOT, 6);
 
         assertTrue(Shuttle.ROUTE_1_PM.isAvailable(Station.DAY_1_NORTH, Station.TRB));
