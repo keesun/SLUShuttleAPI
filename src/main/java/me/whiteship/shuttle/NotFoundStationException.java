@@ -5,8 +5,13 @@ package me.whiteship.shuttle;
  */
 public class NotFoundStationException extends RuntimeException {
 
-    public NotFoundStationException(String stationName) {
+    private String stationName;
 
+    public NotFoundStationException(String stationName) {
+        this.stationName = stationName;
     }
 
+    public String getStationName() {
+        return stationName;
+    }
 }

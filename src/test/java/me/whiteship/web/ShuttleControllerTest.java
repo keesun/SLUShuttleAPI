@@ -1,6 +1,7 @@
 package me.whiteship.web;
 
 import me.whiteship.Application;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +30,28 @@ public class ShuttleControllerTest {
 
     MockMvc mockMvc;
 
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
     @Test
     public void di() {
         assertNotNull(wac);
     }
 
     @Test
-    public void testFind() throws Exception {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    public void testFind_OK() throws Exception {
         mockMvc.perform(get("/from/trb/to/blackfoot"))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testFind_BAD_REQUEST() throws Exception {
+        mockMvc.perform(get("/from/1/to/2"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
 }
