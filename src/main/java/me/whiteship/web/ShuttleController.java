@@ -33,7 +33,6 @@ public class ShuttleController {
 
     @ExceptionHandler(NotFoundStationException.class)
     public ResponseEntity handleNotFoundStationException(NotFoundStationException e) {
-        return new ResponseEntity<>("There is no station named " + e.getStationName(), HttpStatus.BAD_REQUEST);
-
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

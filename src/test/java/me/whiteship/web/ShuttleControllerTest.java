@@ -15,6 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -51,7 +52,8 @@ public class ShuttleControllerTest {
     public void testFind_BAD_REQUEST() throws Exception {
         mockMvc.perform(get("/from/1/to/2"))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Not found '1' station. Please check if the name of station is correct."));
     }
 
 }
