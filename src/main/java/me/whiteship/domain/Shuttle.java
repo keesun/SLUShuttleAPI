@@ -105,21 +105,40 @@ public class Shuttle {
 
     public List<Schedule> getSchedules(Station departingStation, Station arrivingStation, LocalTime localTime) {
         List<LocalTime> arrivingSchedules = getSchedules().get(arrivingStation);
-        boolean callout = arrivingSchedules == null;
+        List<Station> stations = Arrays.asList(this.stations);
+        int indexOfDepartingStation = stations.indexOf(departingStation);
+        int indexOfArrivingStation = stations.indexOf(arrivingStation);
+        boolean isRoundBack = indexOfArrivingStation < indexOfDepartingStation;
 
         AtomicInteger index = new AtomicInteger();
         return getSchedules().get(departingStation).stream()
-                .filter(time -> {
+                .filter(departingTime -> {
+                    boolean isCallout = departingTime.equals(CALL_OUT);
+                    boolean isDropOnly = departingTime.equals(DROP_ONLY);
+                    int indexOfArrivingTime = isRoundBack ? index.get() + 1 : index.get();
+                    boolean hasArrivingTime = arrivingSchedules.size() >= indexOfArrivingTime;
                     index.incrementAndGet();
-                    return time.isAfter(localTime);
+                    return departingTime.isAfter(localTime) && !isCallout && !isDropOnly && hasArrivingTime;
                 })
-                .map(departingTime -> Schedule.builder()
-                        .departingStation(departingStation)
-                        .departingTime(departingTime)
-                        .arrivingStation(arrivingStation)
-                        .callout(callout)
-                        .dropOnly(callout)
-                        .build())
+                .map(departingTime -> {
+                    assert arrivingSchedules != null;
+                    int indexOfArrivingTIme = isRoundBack ? index.get() : index.get() - 1;
+                    LocalTime arrivingTime = arrivingSchedules.get(indexOfArrivingTIme);
+
+                    boolean isCallout = arrivingTime.equals(CALL_OUT);
+                    boolean isDropOnly = arrivingTime.equals(DROP_ONLY);
+                    Schedule schedule = Schedule.builder()
+                            .departingStation(departingStation)
+                            .departingTime(departingTime)
+                            .arrivingStation(arrivingStation)
+                            .callout(isCallout)
+                            .dropOnly(isCallout || isDropOnly)
+                            .build();
+                    if (!isCallout && !isDropOnly) {
+                        schedule.setArrivingTime(arrivingTime);
+                    }
+                    return schedule;
+                })
                 .collect(Collectors.toList());
     }
 }

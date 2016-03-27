@@ -44,7 +44,7 @@ public class ShuttleServiceTest {
     }
 
     @Test
-    public void findSchedules() {
+    public void testFromTrbToBlckfoot() {
         Station trb = shuttleService.findStationByName("trb");
         Station blackfoot = shuttleService.findStationByName("blackfoot");
         Station arizona = shuttleService.findStationByName("arizona");
@@ -76,12 +76,17 @@ public class ShuttleServiceTest {
         assertEquals(lastScheduleOfRoute1PM.getArrivingStation(), Station.BLACKFOOT);
         assertEquals(lastScheduleOfRoute1PM.getDepartingTime().getHour(), 18);
         assertEquals(lastScheduleOfRoute1PM.getDepartingTime().getMinute(), 25);
-
-        Map<Shuttle, List<Schedule>> fromTrbToArizona = shuttleService.findSchedules(trb, arizona, LocalTime.of(9, 35));
-        assertEquals(fromTrbToArizona.size(), 1);
-
-        // TODO D1N 에서 BlackFoot으로 가는게 6개만 나와야 하는데 아마 7개가 나올꺼다
-        // TODO 그거 고치려면 call-out이랑 Drop-only 스케줄도 채워야 한다.
     }
+
+    @Test
+    public void testFromDay1NorthToTRB() {
+        Map<Shuttle, List<Schedule>> fromDay1NorthToTRB = shuttleService.findSchedules(Station.DAY_1_NORTH, Station.TRB, LocalTime.of(14, 00));
+        assertEquals(fromDay1NorthToTRB.size(), 1);
+        List<Schedule> route1PMSchedules = fromDay1NorthToTRB.get(Shuttle.ROUTE_1_PM);
+        assertEquals(route1PMSchedules.size(), 7);
+        // TODO 마지막 스케줄의 TRB 하차가 droponly 인지 확인하기
+    }
+
+    // TODO TRB에서 Blackfoot 가는 스케줄이 7개가 아니라 6개가 나와야 한다.
 
 }
