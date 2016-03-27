@@ -46,6 +46,14 @@ public class ShuttleControllerTest {
         mockMvc.perform(get("/from/trb/to/blackfoot"))
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        mockMvc.perform(get("/from/Day1North/to/blackfoot"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/from/d1n/to/blackfoot"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test

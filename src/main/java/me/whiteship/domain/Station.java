@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,12 +24,15 @@ public class Station {
 
     static {
         TRB = Station.builder().name("TRB").build();
-        DAY_1_NORTH = Station.builder().name("Day1North").build();
+        DAY_1_NORTH = Station.builder().name("Day1North")
+                .nickNames(Collections.singletonList("d1n")) // TODO input SEA number
+                .build();
         BLACKFOOT = Station.builder().name("Blackfoot").build();
         ARIZONA = Station.builder().name("Arizona").build();
     }
 
     private String name;
     private List<Building> connectedBuildings;
+    private List<String> nickNames;
 
 }

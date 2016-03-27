@@ -31,7 +31,12 @@ public class ShuttleService {
 
     public Station findStationByName(String stationName) {
         Optional<Station> first = stations.stream()
-                .filter(station -> station.getName().toLowerCase().equals(stationName.toLowerCase()))
+                .filter(station -> {
+                    boolean isSameName = station.getName().toLowerCase().equals(stationName.toLowerCase());
+                    List<String> nickNames = station.getNickNames();
+                    boolean isSameNickName = nickNames != null && nickNames.contains(stationName.toLowerCase());
+                    return isSameName || isSameNickName;
+                })
                 .findFirst();
         if (first.isPresent()) {
             return first.get();
