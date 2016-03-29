@@ -16,6 +16,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Keesun Baik
@@ -84,7 +85,11 @@ public class ShuttleServiceTest {
         assertEquals(fromDay1NorthToTRB.size(), 1);
         List<Schedule> route1PMSchedules = fromDay1NorthToTRB.get(Shuttle.ROUTE_1_PM);
         assertEquals(route1PMSchedules.size(), 7);
-        // TODO 마지막 스케줄의 TRB 하차가 droponly 인지 확인하기
+        Schedule lastSchedule = route1PMSchedules.get(6);
+        assertEquals(lastSchedule.getDepartingStation(), Station.DAY_1_NORTH);
+        assertEquals(lastSchedule.getDepartingTime().getHour(), 18);
+        assertEquals(lastSchedule.getDepartingTime().getMinute(), 55);
+        assertTrue(lastSchedule.isDropOnly());
     }
 
     // TODO TRB에서 Blackfoot 가는 스케줄이 7개가 아니라 6개가 나와야 한다.
