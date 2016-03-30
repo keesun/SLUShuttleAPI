@@ -14,9 +14,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Keesun Baik
@@ -46,11 +44,7 @@ public class ShuttleServiceTest {
 
     @Test
     public void testFromTrbToBlckfoot() {
-        Station trb = shuttleService.findStationByName("trb");
-        Station blackfoot = shuttleService.findStationByName("blackfoot");
-        Station arizona = shuttleService.findStationByName("arizona");
-
-        Map<Shuttle, List<Schedule>> fromTrbToBlackfoot = shuttleService.findSchedules(trb, blackfoot, LocalTime.of(9, 35));
+        Map<Shuttle, List<Schedule>> fromTrbToBlackfoot = shuttleService.findSchedules(Station.TRB, Station.BLACKFOOT, LocalTime.of(9, 35));
         assertEquals(fromTrbToBlackfoot.size(), 2);
         List<Schedule> route1AMSchedules = fromTrbToBlackfoot.get(Shuttle.ROUTE_1_AM);
         assertEquals(route1AMSchedules.size(), 7);
@@ -92,6 +86,21 @@ public class ShuttleServiceTest {
         assertTrue(lastSchedule.isDropOnly());
     }
 
-    // TODO TRB에서 Blackfoot 가는 스케줄이 7개가 아니라 6개가 나와야 한다.
+    @Test
+    public void testFromBlackfootToTrb() {
+        Map<Shuttle, List<Schedule>> fromBlackfootToTrb = shuttleService.findSchedules(Station.BLACKFOOT, Station.TRB, LocalTime.of(14, 0));
+        assertEquals(fromBlackfootToTrb.size(), 1);
+        List<Schedule> schedules = fromBlackfootToTrb.get(Shuttle.ROUTE_1_PM);
+        assertEquals(schedules.size(), 6);
+        Schedule firstSchedule = schedules.get(0);
+        assertEquals(firstSchedule.getDepartingStation(), Station.BLACKFOOT);
+        assertEquals(firstSchedule.getArrivingStation(), Station.TRB);
+        assertEquals(firstSchedule.getDepartingTime().getHour(), 14);
+        assertEquals(firstSchedule.getDepartingTime().getMinute(), 40);
+        assertEquals(firstSchedule.getArrivingTime().getHour(), 15);
+        assertEquals(firstSchedule.getArrivingTime().getMinute(), 5);
+        assertFalse(firstSchedule.isDropOnly());
+        assertFalse(firstSchedule.isCallout());
+    }
 
 }
