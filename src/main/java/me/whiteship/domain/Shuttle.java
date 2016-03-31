@@ -137,6 +137,19 @@ public class Shuttle {
                     if (!isCallout && !isDropOnly) {
                         schedule.setArrivingTime(arrivingTime);
                     }
+                    int cursor = indexOfDepartingStation;
+                    int numberOfStations = 0;
+                    while (cursor != indexOfArrivingStation) {
+                        Station currentStation = stations.get(cursor);
+                        int indexOfCurrentStation = stations.indexOf(currentStation);
+                        int indexOfSchedule = indexOfCurrentStation < indexOfDepartingStation ? index.get() : index.get() - 1;
+                        LocalTime currentStationTime = getSchedules().get(currentStation).get(indexOfSchedule);
+                        if (!currentStationTime.equals(CALL_OUT) && !currentStationTime.equals(DROP_ONLY)) {
+                            numberOfStations++;
+                        }
+                        cursor = (cursor + 1 == stations.size()) ? 0 : cursor + 1;
+                    }
+                    schedule.setNumberOfStops(numberOfStations);
                     return schedule;
                 })
                 .collect(Collectors.toList());
