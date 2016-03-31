@@ -116,7 +116,7 @@ public class Shuttle {
                     boolean isCallout = departingTime.equals(CALL_OUT);
                     boolean isDropOnly = departingTime.equals(DROP_ONLY);
                     int indexOfArrivingTime = isRoundBack ? index.get() + 1 : index.get();
-                    boolean hasArrivingTime = arrivingSchedules.size() >= indexOfArrivingTime;
+                    boolean hasArrivingTime = arrivingSchedules.size() > indexOfArrivingTime;
                     index.incrementAndGet();
                     return departingTime.isAfter(localTime) && !isCallout && !isDropOnly && hasArrivingTime;
                 })

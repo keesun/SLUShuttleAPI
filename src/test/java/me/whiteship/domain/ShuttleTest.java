@@ -51,20 +51,19 @@ public class ShuttleTest {
         assertTrue(Shuttle.ROUTE_1_AM.isAvailable(Station.DAY_1_NORTH, Station.BLACKFOOT));
         assertTrue(Shuttle.ROUTE_1_AM.isAvailable(Station.DAY_1_NORTH, Station.ARIZONA));
 
-        List<Schedule> fromTrbToDay1NortAt6am = Shuttle.ROUTE_1_AM.getSchedules(Station.TRB, Station.DAY_1_NORTH, LocalTime.of(6, 0));
-        assertEquals(fromTrbToDay1NortAt6am.size(), 12);
-        assertSchedule(fromTrbToDay1NortAt6am.get(0), Station.TRB, Station.DAY_1_NORTH, 6, 55);
-        assertSchedule(fromTrbToDay1NortAt6am.get(1), Station.TRB, Station.DAY_1_NORTH, 7, 35);
-        assertSchedule(fromTrbToDay1NortAt6am.get(2), Station.TRB, Station.DAY_1_NORTH, 8, 15);
-        assertSchedule(fromTrbToDay1NortAt6am.get(3), Station.TRB, Station.DAY_1_NORTH, 8, 55);
-        assertSchedule(fromTrbToDay1NortAt6am.get(4), Station.TRB, Station.DAY_1_NORTH, 9, 35);
-        assertSchedule(fromTrbToDay1NortAt6am.get(5), Station.TRB, Station.DAY_1_NORTH, 10, 15);
-        assertSchedule(fromTrbToDay1NortAt6am.get(6), Station.TRB, Station.DAY_1_NORTH, 10, 50);
-        assertSchedule(fromTrbToDay1NortAt6am.get(7), Station.TRB, Station.DAY_1_NORTH, 11, 25);
-        assertSchedule(fromTrbToDay1NortAt6am.get(8), Station.TRB, Station.DAY_1_NORTH, 12, 0);
-        assertSchedule(fromTrbToDay1NortAt6am.get(9), Station.TRB, Station.DAY_1_NORTH, 12, 45);
-        assertSchedule(fromTrbToDay1NortAt6am.get(10), Station.TRB, Station.DAY_1_NORTH, 13, 20);
-        assertSchedule(fromTrbToDay1NortAt6am.get(11), Station.TRB, Station.DAY_1_NORTH, 13, 50);
+        List<Schedule> fromTrbToDay1NorthAt6am = Shuttle.ROUTE_1_AM.getSchedules(Station.TRB, Station.DAY_1_NORTH, LocalTime.of(6, 0));
+        assertEquals(fromTrbToDay1NorthAt6am.size(), 11);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(0), Station.TRB, Station.DAY_1_NORTH, 6, 55);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(1), Station.TRB, Station.DAY_1_NORTH, 7, 35);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(2), Station.TRB, Station.DAY_1_NORTH, 8, 15);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(3), Station.TRB, Station.DAY_1_NORTH, 8, 55);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(4), Station.TRB, Station.DAY_1_NORTH, 9, 35);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(5), Station.TRB, Station.DAY_1_NORTH, 10, 15);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(6), Station.TRB, Station.DAY_1_NORTH, 10, 50);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(7), Station.TRB, Station.DAY_1_NORTH, 11, 25);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(8), Station.TRB, Station.DAY_1_NORTH, 12, 0);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(9), Station.TRB, Station.DAY_1_NORTH, 12, 45);
+        assertSchedule(fromTrbToDay1NorthAt6am.get(10), Station.TRB, Station.DAY_1_NORTH, 13, 20);
 
         List<Schedule> fromTrbToBlackfootAt6am = Shuttle.ROUTE_1_AM.getSchedules(Station.TRB, Station.BLACKFOOT, LocalTime.of(6, 0));
         assertEquals(fromTrbToBlackfootAt6am.size(), 12);
@@ -82,15 +81,13 @@ public class ShuttleTest {
         assertSchedule(fromTrbToBlackfootAt6am.get(11), Station.TRB, Station.BLACKFOOT, 13, 50);
 
         List<Schedule> fromTrbToDay1NorthAt10am = Shuttle.ROUTE_1_AM.getSchedules(Station.TRB, Station.DAY_1_NORTH, LocalTime.of(10, 0));
-        assertEquals(fromTrbToDay1NorthAt10am.size(), 7);
+        assertEquals(fromTrbToDay1NorthAt10am.size(), 6);
         assertSchedule(fromTrbToDay1NorthAt10am.get(0), Station.TRB, Station.DAY_1_NORTH, 10, 15);
         assertSchedule(fromTrbToDay1NorthAt10am.get(1), Station.TRB, Station.DAY_1_NORTH, 10, 50);
         assertSchedule(fromTrbToDay1NorthAt10am.get(2), Station.TRB, Station.DAY_1_NORTH, 11, 25);
         assertSchedule(fromTrbToDay1NorthAt10am.get(3), Station.TRB, Station.DAY_1_NORTH, 12, 0);
         assertSchedule(fromTrbToDay1NorthAt10am.get(4), Station.TRB, Station.DAY_1_NORTH, 12, 45);
         assertSchedule(fromTrbToDay1NorthAt10am.get(5), Station.TRB, Station.DAY_1_NORTH, 13, 20);
-        assertSchedule(fromTrbToDay1NorthAt10am.get(6), Station.TRB, Station.DAY_1_NORTH, 13, 50);
-
 
         List<Schedule> fromDay1NorthToTrbAt10am = Shuttle.ROUTE_1_AM.getSchedules(Station.DAY_1_NORTH, Station.TRB, LocalTime.of(10, 0));
         assertEquals(fromDay1NorthToTrbAt10am.size(), 6);

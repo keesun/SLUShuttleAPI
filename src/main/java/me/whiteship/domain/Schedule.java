@@ -18,6 +18,16 @@ public class Schedule {
     private Station arrivingStation;
 
     /**
+     * A -> B = 1
+     * A -> B -> C = 2
+     * A -> Callout -> Callout -> B = 1+
+     * A -> Droponly -> B = 1+
+     * A -> Callout = 1
+     * A -> B -> Droponly = 2
+     */
+    private int numberOfStops;
+
+    /**
      * The call-out station means that if you don't ask driver of the shuttle to stop this station,
      * the bus will just pass it by. You should tell the driver that you are going to this station.
      */
