@@ -20,11 +20,10 @@ public class Shuttle {
     public static final Shuttle ROUTE_1_PM;
     public static final LocalTime CALL_OUT = LocalTime.MAX;
     public static final LocalTime DROP_ONLY = LocalTime.MIN;
-    private static final DateTimeFormatter TIME_FORMATTER;
+
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a").withLocale(Locale.ENGLISH);
 
     static {
-        TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a").withLocale(Locale.ENGLISH);
-
         ROUTE_1_AM = Shuttle.builder()
                 .number(1)
                 .description("TRB - Blackfoot - Day 1 North \n" +
