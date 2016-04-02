@@ -118,40 +118,48 @@ public class Shuttle {
                     int indexOfArrivingTime = isRoundBack ? index.get() + 1 : index.get();
                     boolean hasArrivingTime = arrivingSchedules.size() > indexOfArrivingTime;
                     index.incrementAndGet();
-                    return departingTime.isAfter(localTime) && !isCallout && !isDropOnly && hasArrivingTime;
+                    return !isCallout && !isDropOnly && departingTime.isAfter(localTime) && hasArrivingTime;
                 })
                 .map(departingTime -> {
                     assert arrivingSchedules != null;
                     int indexOfArrivingTIme = isRoundBack ? index.get() : index.get() - 1;
                     LocalTime arrivingTime = arrivingSchedules.get(indexOfArrivingTIme);
-
-                    boolean isCallout = arrivingTime.equals(CALL_OUT);
-                    boolean isDropOnly = arrivingTime.equals(DROP_ONLY);
-                    Schedule schedule = Schedule.builder()
-                            .departingStation(departingStation)
-                            .departingTime(departingTime)
-                            .arrivingStation(arrivingStation)
-                            .callout(isCallout)
-                            .dropOnly(isCallout || isDropOnly)
-                            .build();
-                    if (!isCallout && !isDropOnly) {
-                        schedule.setArrivingTime(arrivingTime);
-                    }
-                    int cursor = indexOfDepartingStation;
-                    int numberOfStations = 0;
-                    while (cursor != indexOfArrivingStation) {
-                        Station currentStation = stations.get(cursor);
-                        int indexOfCurrentStation = stations.indexOf(currentStation);
-                        int indexOfSchedule = indexOfCurrentStation < indexOfDepartingStation ? index.get() : index.get() - 1;
-                        LocalTime currentStationTime = getSchedules().get(currentStation).get(indexOfSchedule);
-                        if (!currentStationTime.equals(CALL_OUT) && !currentStationTime.equals(DROP_ONLY)) {
-                            numberOfStations++;
-                        }
-                        cursor = (cursor + 1 == stations.size()) ? 0 : cursor + 1;
-                    }
-                    schedule.setNumberOfStops(numberOfStations);
+                    Schedule schedule = createSchedule(departingStation, arrivingStation, departingTime, arrivingTime);
+                    setNUmberOfStops(stations, indexOfDepartingStation, indexOfArrivingStation, index, schedule);
                     return schedule;
                 })
                 .collect(Collectors.toList());
+    }
+
+    private Schedule createSchedule(Station departingStation, Station arrivingStation, LocalTime departingTime, LocalTime arrivingTime) {
+        boolean isCallout = arrivingTime.equals(CALL_OUT);
+        boolean isDropOnly = arrivingTime.equals(DROP_ONLY);
+        Schedule schedule = Schedule.builder()
+                .departingStation(departingStation)
+                .departingTime(departingTime)
+                .arrivingStation(arrivingStation)
+                .callout(isCallout)
+                .dropOnly(isCallout || isDropOnly)
+                .build();
+        if (!isCallout && !isDropOnly) {
+            schedule.setArrivingTime(arrivingTime);
+        }
+        return schedule;
+    }
+
+    private void setNUmberOfStops(final List<Station> stations, int indexOfDepartingStation, int indexOfArrivingStation, final AtomicInteger index, final Schedule schedule) {
+        int cursor = indexOfDepartingStation;
+        int numberOfStations = 0;
+        while (cursor != indexOfArrivingStation) {
+            Station currentStation = stations.get(cursor);
+            int indexOfCurrentStation = stations.indexOf(currentStation);
+            int indexOfSchedule = indexOfCurrentStation < indexOfDepartingStation ? index.get() : index.get() - 1;
+            LocalTime currentStationTime = getSchedules().get(currentStation).get(indexOfSchedule);
+            if (!currentStationTime.equals(CALL_OUT) && !currentStationTime.equals(DROP_ONLY)) {
+                numberOfStations++;
+            }
+            cursor = (cursor + 1 == stations.size()) ? 0 : cursor + 1;
+        }
+        schedule.setNumberOfStops(numberOfStations);
     }
 }
