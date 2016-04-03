@@ -6,6 +6,7 @@ import me.whiteship.domain.Station;
 import me.whiteship.dto.Result;
 import me.whiteship.dto.ScheduleDto;
 import me.whiteship.dto.ShuttleDto;
+import me.whiteship.dto.StationDto;
 import me.whiteship.shuttle.NotFoundStationException;
 import me.whiteship.shuttle.ShuttleService;
 import org.modelmapper.ModelMapper;
@@ -42,6 +43,8 @@ public class ShuttleController {
         Map<ShuttleDto, List<ScheduleDto>> schedulesDto = new HashMap<>();
         schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
         result.setSchedules(schedulesDto);
+        result.setDepartingStation(modelMapper.map(fromStation, StationDto.class));
+        result.setArrivingStation(modelMapper.map(toStation, StationDto.class));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
