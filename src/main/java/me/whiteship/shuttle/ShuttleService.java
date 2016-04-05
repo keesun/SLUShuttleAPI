@@ -57,4 +57,12 @@ public class ShuttleService {
         });
         return result;
     }
+
+    public Shuttle findShuttle(int number) {
+        Optional<Shuttle> first = shuttles.stream().filter(shuttle -> shuttle.getNumber() == number).findFirst();
+        if (first.isPresent()) {
+            return first.get();
+        }
+        throw new ShuttleNotFoundException(number);
+    }
 }

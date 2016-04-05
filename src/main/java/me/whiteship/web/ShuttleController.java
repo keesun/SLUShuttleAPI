@@ -48,6 +48,12 @@ public class ShuttleController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/shuttle/{number}")
+    public ResponseEntity shuttle(@PathVariable int number) {
+        Shuttle shuttle = shuttleService.findShuttle(number);
+        return null;
+    }
+
     private List<ScheduleDto> mapSchedules(List<Schedule> schedules) {
         return schedules.stream().map(s -> modelMapper.map(s, ScheduleDto.class)).collect(Collectors.toList());
     }
