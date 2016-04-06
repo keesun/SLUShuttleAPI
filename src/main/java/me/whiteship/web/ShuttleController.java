@@ -50,8 +50,11 @@ public class ShuttleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/shuttle/{number}")
     public ResponseEntity shuttle(@PathVariable int number) {
+        // TODO ROUTE 1이 한개가 아니고 두개네.
+        // TODO 시간 정보 다듬기
+        // TODO 셔틀 찾기 개선
         Shuttle shuttle = shuttleService.findShuttle(number);
-        return null;
+        return new ResponseEntity<>(shuttle, HttpStatus.OK);
     }
 
     private List<ScheduleDto> mapSchedules(List<Schedule> schedules) {
