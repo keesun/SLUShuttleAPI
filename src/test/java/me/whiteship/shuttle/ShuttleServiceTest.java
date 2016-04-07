@@ -113,4 +113,10 @@ public class ShuttleServiceTest {
         assertEquals(firstSchedule.getNumberOfStops(), 2);
     }
 
+    @Test
+    public void testFindShuttle() {
+        List<Shuttle> shuttles = shuttleService.findShuttle(1);
+        assertEquals(shuttles.size(), 2);
+    }
+
 }

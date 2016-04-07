@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Keesun Baik
@@ -58,11 +59,11 @@ public class ShuttleService {
         return result;
     }
 
-    public Shuttle findShuttle(int number) {
-        Optional<Shuttle> first = shuttles.stream().filter(shuttle -> shuttle.getNumber() == number).findFirst();
-        if (first.isPresent()) {
-            return first.get();
+    public List<Shuttle> findShuttle(int number) {
+        List<Shuttle> shuttles = ShuttleService.shuttles.stream().filter(shuttle -> shuttle.getNumber() == number).collect(Collectors.toList());
+        if (shuttles.isEmpty()) {
+            throw new ShuttleNotFoundException(number);
         }
-        throw new ShuttleNotFoundException(number);
+        return shuttles;
     }
 }
