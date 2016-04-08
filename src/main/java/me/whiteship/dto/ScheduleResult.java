@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Keesun Baik
  */
 @Data
-public class Result {
+public class ScheduleResult {
 
     /**
      * Raw data that contains all available schedules

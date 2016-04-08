@@ -3,7 +3,7 @@ package me.whiteship.web;
 import me.whiteship.domain.Schedule;
 import me.whiteship.domain.Shuttle;
 import me.whiteship.domain.Station;
-import me.whiteship.dto.Result;
+import me.whiteship.dto.ScheduleResult;
 import me.whiteship.dto.ScheduleDto;
 import me.whiteship.dto.ShuttleDto;
 import me.whiteship.dto.StationDto;
@@ -39,13 +39,13 @@ public class ShuttleController {
         Station toStation = shuttleService.findStationByName(to);
         Map<Shuttle, List<Schedule>> schedules = shuttleService.findSchedules(fromStation, toStation, LocalTime.now());
 
-        Result result = new Result();
+        ScheduleResult scheduleResult = new ScheduleResult();
         Map<ShuttleDto, List<ScheduleDto>> schedulesDto = new HashMap<>();
         schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
-        result.setSchedules(schedulesDto);
-        result.setDepartingStation(modelMapper.map(fromStation, StationDto.class));
-        result.setArrivingStation(modelMapper.map(toStation, StationDto.class));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        scheduleResult.setSchedules(schedulesDto);
+        scheduleResult.setDepartingStation(modelMapper.map(fromStation, StationDto.class));
+        scheduleResult.setArrivingStation(modelMapper.map(toStation, StationDto.class));
+        return new ResponseEntity<>(scheduleResult, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/shuttle/{number}")
