@@ -3,10 +3,7 @@ package me.whiteship.web;
 import me.whiteship.domain.Schedule;
 import me.whiteship.domain.Shuttle;
 import me.whiteship.domain.Station;
-import me.whiteship.dto.ScheduleResult;
-import me.whiteship.dto.ScheduleDto;
-import me.whiteship.dto.ShuttleDto;
-import me.whiteship.dto.StationDto;
+import me.whiteship.dto.*;
 import me.whiteship.shuttle.NotFoundStationException;
 import me.whiteship.shuttle.ShuttleService;
 import org.modelmapper.ModelMapper;
@@ -40,7 +37,7 @@ public class ShuttleController {
         Map<Shuttle, List<Schedule>> schedules = shuttleService.findSchedules(fromStation, toStation, LocalTime.now());
 
         ScheduleResult scheduleResult = new ScheduleResult();
-        Map<ShuttleDto, List<ScheduleDto>> schedulesDto = new HashMap<>();
+        Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedulesDto = new HashMap<>();
         schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
         scheduleResult.setSchedules(schedulesDto);
         scheduleResult.setDepartingStation(modelMapper.map(fromStation, StationDto.class));
@@ -50,19 +47,39 @@ public class ShuttleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/shuttle/{number}")
     public ResponseEntity shuttle(@PathVariable int number) {
-        // TODO 시간 정보 다듬기
-        // TODO 셔틀 찾기 개선
-        // TODO ShuttleResult 만들어서 다듬기
-        List<Shuttle> shuttle = shuttleService.findShuttle(number);
-        return new ResponseEntity<>(shuttle, HttpStatus.OK);
+        List<Shuttle> shuttles = shuttleService.findShuttle(number);
+        List<ShuttleDTOs.ForShuttleResult> result = shuttles.stream().map(shuttle -> {
+            ShuttleDTOs.ForShuttleResult dto = modelMapper.map(shuttle, ShuttleDTOs.ForShuttleResult.class);
+            Map<StationDto, List<String>> schedulesDto = new HashMap<>();
+            shuttle.getSchedules().forEach((station, scheduleList) -> schedulesDto.put(mapStationDto(station), mapLocalTimes(scheduleList)));
+            dto.setSchedules(schedulesDto);
+            return dto;
+        }).collect(Collectors.toList());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private List<String> mapLocalTimes(List<LocalTime> localTimes) {
+        return localTimes.stream().map(lt -> {
+            if (lt.equals(Shuttle.DROP_ONLY)) {
+                return "Drop Only";
+            }
+            if (lt.equals(Shuttle.CALL_OUT)) {
+                return "Call Out";
+            }
+            return lt.format(Shuttle.TIME_FORMATTER);
+        }).collect(Collectors.toList());
+    }
+
+    private StationDto mapStationDto(Station station) {
+        return modelMapper.map(station, StationDto.class);
     }
 
     private List<ScheduleDto> mapSchedules(List<Schedule> schedules) {
         return schedules.stream().map(s -> modelMapper.map(s, ScheduleDto.class)).collect(Collectors.toList());
     }
 
-    private ShuttleDto mapShuttleDto(Shuttle shuttle) {
-        return modelMapper.map(shuttle, ShuttleDto.class);
+    private ShuttleDTOs.ForScheduleResult mapShuttleDto(Shuttle shuttle) {
+        return modelMapper.map(shuttle, ShuttleDTOs.ForScheduleResult.class);
     }
 
     @ExceptionHandler(NotFoundStationException.class)

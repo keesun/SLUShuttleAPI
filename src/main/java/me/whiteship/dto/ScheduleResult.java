@@ -14,9 +14,9 @@ public class ScheduleResult {
     /**
      * Raw data that contains all available schedules
      */
-    Map<ShuttleDto, List<ScheduleDto>> schedules;
+    Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedules;
 
-    ShuttleDto recommendedShuttle;
+    ShuttleDTOs.ForScheduleResult recommendedShuttle;
 
     ScheduleDto recommendedSchedule;
 
