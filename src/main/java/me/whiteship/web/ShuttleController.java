@@ -37,12 +37,16 @@ public class ShuttleController {
         Map<Shuttle, List<Schedule>> schedules = shuttleService.findSchedules(fromStation, toStation, LocalTime.now());
 
         ScheduleResult scheduleResult = new ScheduleResult();
-        Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedulesDto = new HashMap<>();
-        schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
-        scheduleResult.setSchedules(schedulesDto);
+        scheduleResult.setSchedules(getForScheduleResultListMap(schedules));
         scheduleResult.setDepartingStation(modelMapper.map(fromStation, StationDto.class));
         scheduleResult.setArrivingStation(modelMapper.map(toStation, StationDto.class));
         return new ResponseEntity<>(scheduleResult, HttpStatus.OK);
+    }
+
+    private Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> getForScheduleResultListMap(Map<Shuttle, List<Schedule>> schedules) {
+        Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedulesDto = new HashMap<>();
+        schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
+        return schedulesDto;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/shuttle/{number}")
@@ -50,12 +54,16 @@ public class ShuttleController {
         List<Shuttle> shuttles = shuttleService.findShuttle(number);
         List<ShuttleDTOs.ForShuttleResult> result = shuttles.stream().map(shuttle -> {
             ShuttleDTOs.ForShuttleResult dto = modelMapper.map(shuttle, ShuttleDTOs.ForShuttleResult.class);
-            Map<StationDto, List<String>> schedulesDto = new HashMap<>();
-            shuttle.getSchedules().forEach((station, scheduleList) -> schedulesDto.put(mapStationDto(station), mapLocalTimes(scheduleList)));
-            dto.setSchedules(schedulesDto);
+            dto.setSchedules(getStationDtoListMap(shuttle));
             return dto;
         }).collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private Map<StationDto, List<String>> getStationDtoListMap(Shuttle shuttle) {
+        Map<StationDto, List<String>> schedulesDto = new HashMap<>();
+        shuttle.getSchedules().forEach((station, scheduleList) -> schedulesDto.put(mapStationDto(station), mapLocalTimes(scheduleList)));
+        return schedulesDto;
     }
 
     private List<String> mapLocalTimes(List<LocalTime> localTimes) {
