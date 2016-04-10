@@ -3,7 +3,7 @@ package me.whiteship.shuttle;
 /**
  * @author Keesun Baik
  */
-public class NotFoundStationException extends RuntimeException {
+public class StationNotFoundException extends RuntimeException {
 
     private String stationName;
 
@@ -12,7 +12,7 @@ public class NotFoundStationException extends RuntimeException {
         return "Not found '" + this.stationName + "' station. Please check if the name of station is correct.";
     }
 
-    public NotFoundStationException(String stationName) {
+    public StationNotFoundException(String stationName) {
         this.stationName = stationName;
     }
 

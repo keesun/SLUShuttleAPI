@@ -42,7 +42,7 @@ public class ShuttleService {
         if (first.isPresent()) {
             return first.get();
         } else {
-            throw new NotFoundStationException(stationName);
+            throw new StationNotFoundException(stationName);
         }
     }
 

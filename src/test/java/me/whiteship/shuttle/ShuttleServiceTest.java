@@ -37,7 +37,7 @@ public class ShuttleServiceTest {
         assertEquals(station.getName().toLowerCase(), "blackfoot");
     }
 
-    @Test(expected = NotFoundStationException.class)
+    @Test(expected = StationNotFoundException.class)
     public void notFoundStationException() {
         shuttleService.findStationByName("not found");
     }

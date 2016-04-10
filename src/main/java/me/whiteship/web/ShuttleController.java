@@ -4,7 +4,7 @@ import me.whiteship.domain.Schedule;
 import me.whiteship.domain.Shuttle;
 import me.whiteship.domain.Station;
 import me.whiteship.dto.*;
-import me.whiteship.shuttle.NotFoundStationException;
+import me.whiteship.shuttle.StationNotFoundException;
 import me.whiteship.shuttle.ShuttleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +43,6 @@ public class ShuttleController {
         return new ResponseEntity<>(scheduleResult, HttpStatus.OK);
     }
 
-    private Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> getForScheduleResultListMap(Map<Shuttle, List<Schedule>> schedules) {
-        Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedulesDto = new HashMap<>();
-        schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
-        return schedulesDto;
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/shuttle/{number}")
     public ResponseEntity shuttle(@PathVariable int number) {
         List<Shuttle> shuttles = shuttleService.findShuttle(number);
@@ -58,6 +52,12 @@ public class ShuttleController {
             return dto;
         }).collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> getForScheduleResultListMap(Map<Shuttle, List<Schedule>> schedules) {
+        Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedulesDto = new HashMap<>();
+        schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
+        return schedulesDto;
     }
 
     private Map<StationDto, List<String>> getStationDtoListMap(Shuttle shuttle) {
@@ -90,8 +90,8 @@ public class ShuttleController {
         return modelMapper.map(shuttle, ShuttleDTOs.ForScheduleResult.class);
     }
 
-    @ExceptionHandler(NotFoundStationException.class)
-    public ResponseEntity handleNotFoundStationException(NotFoundStationException e) {
+    @ExceptionHandler(StationNotFoundException.class)
+    public ResponseEntity handleStationNotFoundException(StationNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
