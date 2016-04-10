@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -77,6 +78,14 @@ public class ShuttleControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Not found '1' station. Please check if the name of station is correct."));
+    }
+
+    @Test
+    public void testShuttle() throws Exception {
+        mockMvc.perform(get("/shuttle/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
 }
