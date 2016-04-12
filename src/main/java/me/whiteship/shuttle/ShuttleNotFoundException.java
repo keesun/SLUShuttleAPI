@@ -10,4 +10,9 @@ public class ShuttleNotFoundException extends RuntimeException {
     public ShuttleNotFoundException(int number) {
         this.number = number;
     }
+
+    @Override
+    public String getMessage() {
+        return "Shuttle that has " + this.number + " not found";
+    }
 }

@@ -88,4 +88,11 @@ public class ShuttleControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
+    @Test
+    public void testShuttleNotFoundException() throws Exception {
+        mockMvc.perform(get("/shuttle/sdf"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
 }

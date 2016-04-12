@@ -3,9 +3,13 @@ package me.whiteship.web;
 import me.whiteship.domain.Schedule;
 import me.whiteship.domain.Shuttle;
 import me.whiteship.domain.Station;
-import me.whiteship.dto.*;
-import me.whiteship.shuttle.StationNotFoundException;
+import me.whiteship.dto.ScheduleDto;
+import me.whiteship.dto.ScheduleResult;
+import me.whiteship.dto.ShuttleDTOs;
+import me.whiteship.dto.StationDto;
+import me.whiteship.shuttle.ShuttleNotFoundException;
 import me.whiteship.shuttle.ShuttleService;
+import me.whiteship.shuttle.StationNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +58,16 @@ public class ShuttleController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @ExceptionHandler(StationNotFoundException.class)
+    public ResponseEntity handleStationNotFoundException(StationNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ShuttleNotFoundException.class)
+    public ResponseEntity handleShuttleNotFoundException(ShuttleNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     private Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> getForScheduleResultListMap(Map<Shuttle, List<Schedule>> schedules) {
         Map<ShuttleDTOs.ForScheduleResult, List<ScheduleDto>> schedulesDto = new HashMap<>();
         schedules.forEach((shuttle, scheduleList) -> schedulesDto.put(mapShuttleDto(shuttle), mapSchedules(scheduleList)));
@@ -90,8 +104,4 @@ public class ShuttleController {
         return modelMapper.map(shuttle, ShuttleDTOs.ForScheduleResult.class);
     }
 
-    @ExceptionHandler(StationNotFoundException.class)
-    public ResponseEntity handleStationNotFoundException(StationNotFoundException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 }
