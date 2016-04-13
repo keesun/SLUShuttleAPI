@@ -90,7 +90,14 @@ public class ShuttleControllerTest {
 
     @Test
     public void testShuttleNotFoundException() throws Exception {
-        mockMvc.perform(get("/shuttle/sdf"))
+        mockMvc.perform(get("/shuttle/99"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testMethodArgumentTypeMismatchException() throws Exception {
+        mockMvc.perform(get("/shuttle/aaa"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
